@@ -6,15 +6,15 @@ import matplotlib
 matplotlib.use("TkAgg")
 
 class SimpleMotor:
-    def __init__(self, dt=0.001, duration=2.0):
-        self.I_arm = 0.01        
-        self.I_motor = 0.001     
+    def __init__(self, dt=0.002, duration=5.0):
+        self.I_arm = 0.02        
+        self.I_motor = 0.005     
         self.gear_ratio = 10.0 
-        self.damping = 0.1      
+        self.damping = 0.05      
         
-        self.kp = 50.0        
-        self.kd = 5.0           
-        self.tau_max = 5.0      
+        self.kp = 30.0        
+        self.kd = 0.3           
+        self.tau_max = 2.0      
         
         self.dt = dt
         self.steps = int(duration / dt)
