@@ -6,6 +6,7 @@ import matplotlib
 matplotlib.use("TkAgg")
 
 class SimpleMotor:
+<<<<<<< HEAD
     def __init__(self, dt=0.002, duration=5.0):
 
         self.I_arm = 0.02       
@@ -17,6 +18,18 @@ class SimpleMotor:
         self.kd = 0.3          
         self.tau_max = 2.0     
         
+=======
+    def __init__(self, dt=0.001, duration=2.0):
+        self.I_arm = 0.01        
+        self.I_motor = 0.001     
+        self.gear_ratio = 10.0 
+        self.damping = 0.1      
+        
+        self.kp = 50.0        
+        self.kd = 5.0           
+        self.tau_max = 5.0      
+        
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
         self.dt = dt
         self.steps = int(duration / dt)
         self.time = np.linspace(0, duration, self.steps)
@@ -24,7 +37,12 @@ class SimpleMotor:
         self.I_eff = self.I_arm + (self.I_motor * (self.gear_ratio ** 2))
 
     def simulate(self, theta_target):
+<<<<<<< HEAD
         theta = 0.0    
+=======
+
+        theta = 0.0      
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
         theta_dot = 0.0  
         
         theta_hist = np.zeros(self.steps)
@@ -33,6 +51,7 @@ class SimpleMotor:
         torque_hist = np.zeros(self.steps)
 
         for i in range(self.steps):
+<<<<<<< HEAD
             error = theta_target - theta
             motor_torque = (self.kp * error) - (self.kd * theta_dot)          
             motor_torque = np.clip(motor_torque, -self.tau_max, self.tau_max)
@@ -40,6 +59,21 @@ class SimpleMotor:
             theta_ddot = (joint_torque - (self.damping * theta_dot)) / self.I_eff
             theta_dot += theta_ddot * self.dt
             theta += theta_dot * self.dt
+=======
+
+            error = theta_target - theta
+            
+            motor_torque = (self.kp * error) - (self.kd * theta_dot)
+
+            motor_torque = np.clip(motor_torque, -self.tau_max, self.tau_max)
+
+            joint_torque = motor_torque * self.gear_ratio
+            theta_ddot = (joint_torque - (self.damping * theta_dot)) / self.I_eff
+
+            theta_dot += theta_ddot * self.dt
+            theta += theta_dot * self.dt
+
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
             theta_hist[i] = theta
             theta_dot_hist[i] = theta_dot
             theta_ddot_hist[i] = theta_ddot
@@ -64,6 +98,10 @@ ax_arm.set_xlim(-0.4, 0.4); ax_arm.set_ylim(-0.4, 0.4)
 arm_line, = ax_arm.plot([], [], lw=5, color='blue', solid_capstyle='round')
 ax_arm.add_patch(plt.Circle((0, 0), 0.05, color='gray'))
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
 pos_line, = ax_pos.plot([], [], 'r', label="θ [rad]")
 target_line = ax_pos.axhline(theta_target, ls='--', color='black', alpha=0.5)
 ax_pos.set_xlim(0, 2); ax_pos.set_ylim(-0.2, 4.0)
@@ -82,7 +120,11 @@ ax_tau.set_xlim(0, 2); ax_tau.set_ylim(-6, 6)
 ax_tau.set_title("Mô-men xoắn (Motor Torque)")
 
 def update(frame):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
     angle = theta_hist[frame]
     arm_line.set_data([0, 0.3 * np.cos(angle)], [0, 0.3 * np.sin(angle)])
     
@@ -96,7 +138,10 @@ def update(frame):
 
 ani = FuncAnimation(fig, update, frames=range(0, motor.steps, 10), interval=10, blit=True)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 173e25d95d80fbc376a188355e527d60784f0e47
 ax_slider = plt.axes([0.15, 0.02, 0.7, 0.03])
 slider = Slider(ax_slider, 'Target (rad)', 0, np.pi, valinit=theta_target)
 
